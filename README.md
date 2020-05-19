@@ -6,6 +6,10 @@
 
 ## How to run the code?
 ```bash
-pip install .
-python train_CCAI.py
+$ pip install .
+$ python train_CCAI.py
+```
+## How to uninstall the package?
+```bash
+$ pip uninstall ADVENT
 ```
