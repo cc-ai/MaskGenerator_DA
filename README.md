@@ -3,13 +3,20 @@
 1. Create a new subfolder under the root named **pretrained_models**  
 2. Download the [pretrained DeepLabv2 model](https://github.com/valeoai/ADVENT/releases/download/v0.1/DeepLab_resnet_pretrained_imagenet.pth) and save it in the folder  
 3. Change the comet_ml work_space and user in the config files (shared/config.yml)  
+## What needs to be done before test the code?
+1. You need to copy the model that you want to test to the root
 
 ## How to run the code?
 ```bash
 $ pip install .
 $ python train_CCAI.py
 ```
+## How to test the code?
+```bash
+$ python test_CCAI.py
+```
 ## How to uninstall the package?
 ```bash
 $ pip uninstall ADVENT
 ```
+
