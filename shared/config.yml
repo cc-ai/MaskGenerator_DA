@@ -6,7 +6,7 @@ SOURCE:
 TARGET:
   'Real'
 NUM_WORKERS:
-  4
+  16
 NUM_CLASSES:
   2 # it was 19
 EXP_NAME:
@@ -88,9 +88,9 @@ TEST:
     MULTI_LEVEL:
       (True,)
     RESTORE_FROM:
-      ('',)
+      ''
     SNAPSHOT_DIR:
-      ('',)  # used in 'best' mode
+      '' # used in 'best' mode
     SNAPSHOT_STEP:
       2000  # used in 'best' mode
     SNAPSHOT_MAXITER:
@@ -106,6 +106,10 @@ TEST:
       True
     store_images:
       False
+    fixed_test_size:
+      True
+    test_iter:
+      30000
 
 
 # ----------------
@@ -134,7 +138,7 @@ data:
   img_size: 256
 
   loaders:
-    batch_size: 40
+    batch_size: 40 # 40, max=93
     shuffle: True
     num_workers: 4
   transforms:
