@@ -123,11 +123,15 @@ def main():
 
     source_loader = get_loader(cfg, real=False, no_check=args.no_check)
     target_loader = get_loader(cfg, real=True, no_check=args.no_check)
-
+    cfg_val = cfg
+    cfg_val.model.is_train = False
+    cfg_val.data.loaders.batch_size = 1
+    target_val_loader = get_loader(cfg_val, real=True, no_check=args.no_check)
+    
     with open(osp.join(cfg.TRAIN.SNAPSHOT_DIR, 'train_cfg.yml'), 'w') as yaml_file:
         yaml.dump(cfg, yaml_file, default_flow_style=False)
     
-    train_preview(model, source_loader, target_loader, cfg, comet_exp)
+    train_preview(model, source_loader, target_loader, target_val_loader, cfg, comet_exp)
 
 
 if __name__ == '__main__':
