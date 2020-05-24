@@ -72,6 +72,8 @@ def main():
     cfg = set_mode("train", cfg)
     flats = flatten_opts(cfg)
     print_opts(flats)
+    cfg.model.is_train = False
+    cfg.data.loaders.batch_size = 1
 
     comet_exp = Experiment(workspace=cfg.workspace, project_name=cfg.project_name)
     flats = flatten_opts(cfg)
