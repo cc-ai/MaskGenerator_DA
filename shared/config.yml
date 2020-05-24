@@ -126,7 +126,7 @@ project_name:
 data:
   use_real: true
   files: # if one is not none it will override the dirs location
-    base: "/network/tmp1/ccai/data/mask_generation/11K" # ! Check output_dir
+    base: "/network/tmp1/ccai/data/mask_generation/Unity11K+8800_lowRes_full_train" # ! Check output_dir
     train: train.json
     val: test.json
 

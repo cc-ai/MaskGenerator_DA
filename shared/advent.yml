@@ -1,6 +1,6 @@
 SOURCE: 'Unity'
 TARGET: 'Real'
-NUM_WORKERS: 16
+
 TRAIN:
   DA_METHOD: AdvEnt
   MODEL: DeepLabv2
@@ -8,5 +8,15 @@ TRAIN:
   MULTI_LEVEL: True
   LAMBDA_ADV_MAIN: 0.001
   LAMBDA_ADV_AUX: 0.0002
+  MAX_ITERS:
+    250000
+  EARLY_STOP:
+    200000
 TEST:
   MODE: best
+  
+data:
+  loaders:
+    batch_size: 40 # 40, max=93
+    shuffle: True
+    num_workers: 8
