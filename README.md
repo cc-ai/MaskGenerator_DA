@@ -11,7 +11,8 @@
 ## How to run the code?
 ```bash
 $ pip install .
-$ python train_CCAI.py
+$ python train_CCAI.py # by default setting
+$ python train_CCAI.py --cfg ./shared/advent.yml # by updated settings in advent.yml
 ```
 ## How to test the code?
 ```bash
