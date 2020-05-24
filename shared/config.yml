@@ -133,7 +133,7 @@ data:
   real_files:
     base: "/network/tmp1/ccai/data/mask_generation/real"
     train: train.json
-    val: test.json
+    val: val_Cityscapes.json
 
   img_size: 256
 
@@ -155,3 +155,14 @@ data:
     - name: resize # ? this or change generator's output? Or resize larger then crop to 256?
       ignore: false
       new_size: 256 #! Make sure this matches opts.data.img_size
+# ------------------------
+# ----- Model options -----
+# ------------------------
+
+model:
+  model_name: ""
+  is_train: true
+  use_gpu: true
+  lambdas: {}
+  loss_names: []
+  verbose: True
