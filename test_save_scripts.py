@@ -8,7 +8,7 @@ from tqdm import tqdm
 
 from advent.utils.func import per_class_iu, fast_hist
 from advent.utils.serialization import pickle_dump, pickle_load
-
+import cv2
 from advent.utils.tools import (
     print_losses,
     tesnorDict2numDict,
@@ -17,8 +17,12 @@ from advent.utils.tools import (
 
 
 def eval_best(cfg, model,
-              device, test_loader, interp, comet_exp,
-              fixed_test_size, verbose):
+              device, test_loader, comet_exp,
+              verbose):
+    fixed_test_size = cfg.TEST.Model.fixed_test_size
+    if fixed_test_size:
+        interp = nn.Upsample(size=(cfg.TEST.Model.OUTPUT_SIZE_TARGET[1], cfg.TEST.Model.OUTPUT_SIZE_TARGET[0]), mode='bilinear',
+         align_corners=True)
     cur_best_miou = -1
     cur_best_model = ''
     i_iter = cfg.TEST.Model.test_iter
@@ -37,7 +41,10 @@ def eval_best(cfg, model,
     for index in tqdm(range(len(test_loader))):
         _, batch = test_iter.__next__()
         # print(test_iter.__next__())
-        image, label = batch['data']['x'][0], batch['data']['m'][0]
+        image, label, path = batch['data']['x'][0], batch['data']['m'][0], batch['paths']['x'][0]
+        if cfg.data.real_files.base == "/network/tmp1/ccai/data/mayCogSciData/Provinces-Mila-complete":
+            print("The dataset to eval is mayCogSciData!")
+            savePath = changeSubString(path)
         image = image[None, :, :, :]
         if not fixed_test_size:
             interp = nn.Upsample(size=(label.shape[1], label.shape[2]), mode='bilinear', align_corners=True)
@@ -81,6 +88,10 @@ def eval_best(cfg, model,
             - (image * output_RGB)
             + output_RGB
         )
+        if cfg.data.real_files.base == "/network/tmp1/ccai/data/mayCogSciData/Provinces-Mila-complete":
+            print("Saving the overlay pictures!")
+            cv2.imwrite(savePath, save_fake_mask)
+        
         save_images.append(save_mask)
         save_images.append(save_fake_mask)
         save_images.append(label.repeat(3, 1, 1))
@@ -92,6 +103,7 @@ def eval_best(cfg, model,
             comet_exp=comet_exp,
             store_im=cfg.TEST.store_images
         )
+        
     return computed_miou, cur_best_model, cur_best_miou
 
 
@@ -106,3 +118,7 @@ def display_stats(cfg, name_classes, inters_over_union_classes):
     for ind_class in range(cfg.NUM_CLASSES):
         print(name_classes[ind_class]
               + '\t' + str(round(inters_over_union_classes[ind_class] * 100, 2)))
+              
+def changeSubString(Str):
+    tmp = Str.split("Provinces-Mila-complete")[0]+"Provinces-Mila-complete-MaskGen"+Str.split("Provinces-Mila-complete")[1]
+    return tmp

@@ -131,11 +131,8 @@ def main():
         yaml.dump(cfg, yaml_file, default_flow_style=False)
     
     device = cfg.GPU_ID
-    if cfg.TEST.Model.fixed_test_size:
-        interp = nn.Upsample(size=(cfg.TEST.Model.OUTPUT_SIZE_TARGET[1], cfg.TEST.Model.OUTPUT_SIZE_TARGET[0]), mode='bilinear',
-         align_corners=True)
     
-    eval_best(cfg, model, device, target_loader, interp, comet_exp, cfg.TEST.Model.fixed_test_size, True)
+    eval_best(cfg, model, device, target_loader, comet_exp, True)
 
 
 if __name__ == '__main__':
