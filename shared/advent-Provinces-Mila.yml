@@ -1,0 +1,30 @@
+SOURCE: 'Unity'
+TARGET: 'Real'
+
+TRAIN:
+  DA_METHOD: AdvEnt
+  MODEL: DeepLabv2
+  RESTORE_FROM: pretrained_models/DeepLab_resnet_pretrained_imagenet.pth
+  MULTI_LEVEL: True
+  LAMBDA_ADV_MAIN: 0.001
+  LAMBDA_ADV_AUX: 0.0002
+  MAX_ITERS:
+    250000
+  EARLY_STOP:
+    200000
+TEST:
+  MODE: best
+  Model:
+    fixed_test_size:
+      False
+    test_iter:
+      30000
+  
+data:
+  real_files:
+    base: "/network/tmp1/ccai/data/mayCogSciData/Provinces-Mila-complete"
+    val: Provinces-Mila-complete.json
+  loaders:
+    batch_size: 40 # 40, max=93
+    shuffle: True
+    num_workers: 8
