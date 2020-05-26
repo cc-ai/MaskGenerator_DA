@@ -221,7 +221,7 @@ def train_preview(model, source_loader, target_loader, target_val_loader, cfg, c
             try:
                 _, batch = target_val_loader_iter.__next__()
             except StopIteration:
-                target_val_loader_iter = enumerate(target_val_loader_iter)
+                target_val_loader_iter = enumerate(target_val_loader)
                 _, batch = target_val_loader_iter.__next__()
 
             image, label = batch['data']['x'][0], batch['data']['m'][0]
