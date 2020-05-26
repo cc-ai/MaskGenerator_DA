@@ -22,4 +22,6 @@ $ python test_CCAI.py
 ```bash
 $ pip uninstall ADVENT
 ```
+## Acknowledge
+ADVENT: Adversarial Entropy Minimization for Domain Adaptation in Semantic Segmentation [https://github.com/valeoai/ADVENT]
 
