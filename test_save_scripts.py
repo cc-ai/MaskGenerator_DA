@@ -5,7 +5,7 @@ import numpy as np
 import torch
 from torch import nn
 from tqdm import tqdm
-
+from torchvision import utils as vutils
 from advent.utils.func import per_class_iu, fast_hist
 from advent.utils.serialization import pickle_dump, pickle_load
 import cv2
@@ -90,8 +90,10 @@ def eval_best(cfg, model,
         )
         if cfg.data.real_files.base == "/network/tmp1/ccai/data/mayCogSciData/Provinces-Mila-complete":
             print("Saving the overlay pictures!")
-            cv2.imwrite(savePath, save_fake_mask)
-        
+            # print("Size of picture: ", np.transpose(save_fake_mask.cpu().data.numpy()).shape)
+            print("SavePath: ", savePath)
+            # cv2.imwrite(savePath, np.transpose(save_fake_mask.numpy()))
+            vutils.save_image(output_RGB,savePath,normalize=True)
         save_images.append(save_mask)
         save_images.append(save_fake_mask)
         save_images.append(label.repeat(3, 1, 1))

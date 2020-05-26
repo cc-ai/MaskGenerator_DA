@@ -54,6 +54,12 @@ def get_arguments():
         default=False,
         help="Prevent sample existence checking for faster dev",
     )
+    parser.add_argument(
+        "-pt",
+        "--pretrained",
+        default=True,
+        help="True if use pretrained model",
+    )
     return parser.parse_args()
 
 
@@ -107,16 +113,17 @@ def main():
     assert osp.exists(cfg.TRAIN.RESTORE_FROM), f'Missing init model {cfg.TRAIN.RESTORE_FROM}'
     if cfg.TRAIN.MODEL == 'DeepLabv2':
         model = get_deeplab_v2(num_classes=cfg.NUM_CLASSES, multi_level=cfg.TRAIN.MULTI_LEVEL)
-        saved_state_dict = torch.load(cfg.TRAIN.RESTORE_FROM)
-        if 'DeepLab_resnet_pretrained_imagenet' in cfg.TRAIN.RESTORE_FROM:
-            new_params = model.state_dict().copy()
-            for i in saved_state_dict:
-                i_parts = i.split('.')
-                if not i_parts[1] == 'layer5':
-                    new_params['.'.join(i_parts[1:])] = saved_state_dict[i]
-            model.load_state_dict(new_params)
-        else:
-            model.load_state_dict(saved_state_dict)
+        if cfg.pretrained == True:
+            saved_state_dict = torch.load(cfg.TRAIN.RESTORE_FROM)
+            if 'DeepLab_resnet_pretrained_imagenet' in cfg.TRAIN.RESTORE_FROM:
+                new_params = model.state_dict().copy()
+                for i in saved_state_dict:
+                    i_parts = i.split('.')
+                    if not i_parts[1] == 'layer5':
+                        new_params['.'.join(i_parts[1:])] = saved_state_dict[i]
+                model.load_state_dict(new_params)
+            else:
+                model.load_state_dict(saved_state_dict)
     else:
         raise NotImplementedError(f"Not yet supported {cfg.TRAIN.MODEL}")
     print('Model loaded')
