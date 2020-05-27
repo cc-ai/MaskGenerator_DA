@@ -14,18 +14,19 @@ TRAIN:
     200000
 TEST:
   MODE: best
+  isShowcomet_ml:
+    True
   Model:
-    fixed_test_size:
-      False
     test_iter:
       36000
+    save_pred_path_default:
+      True
+    save_pred_path_customized:
+      ""
   
 data:
-  real_files:
-    base: "/network/tmp1/ccai/data/mayCogSciData/Provinces-Mila-complete"
-    val: Provinces-Mila-complete.json
   loaders:
-    batch_size: 40 # 40, max=93
+    batch_size: 1 # 40, max=93
     shuffle: True
     num_workers: 8
   transforms:
@@ -33,12 +34,12 @@ data:
       ignore: true
       p: 0.5
     - name: resize
-      ignore: true
+      ignore: false
       new_size: 256 #! Make sure this matches opts.data.img_size
     - name: crop
       ignore: true
       height: 224
       width: 224
     - name: resize # ? this or change generator's output? Or resize larger then crop to 256?
-      ignore: true
+      ignore: false
       new_size: 256 #! Make sure this matches opts.data.img_size

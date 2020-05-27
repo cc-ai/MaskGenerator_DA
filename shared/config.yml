@@ -64,7 +64,7 @@ TRAIN:
   SAVE_PRED_EVERY:
     2000
   SNAPSHOT_DIR:
-    ''
+    '/network/tmp1/ccai/checkpoints/tianyu'
   RANDOM_SEED:
     1234
   tests_per_epoch:
@@ -108,7 +108,12 @@ TEST:
       True
     test_iter:
       30000
-
+    save_pred_path_default:
+      True
+    save_pred_path_customized:
+      ""
+  isShowcomet_ml:
+    True
 
 # ----------------
 # --- Comet_ML ---

@@ -12,33 +12,48 @@ TRAIN:
     250000
   EARLY_STOP:
     200000
+  checkpoint_iter:
+    36000
 TEST:
   MODE: best
+  isShowcomet_ml:
+    True
   Model:
-    fixed_test_size:
-      False
     test_iter:
       36000
+    save_pred_path_default:
+      True
+    save_pred_path_customized:
+      ""
   
 data:
+  use_real: true
+  files: # if one is not none it will override the dirs location
+    base: "/network/home/tianyu.zhang/ADVENT7" # ! Check output_dir
+    train: easy_split.json
+    val: easy_split.json
+
   real_files:
-    base: "/network/tmp1/ccai/data/mayCogSciData/Provinces-Mila-complete"
-    val: Provinces-Mila-complete.json
+    base: "/network/home/tianyu.zhang/ADVENT7"
+    train: hard_split.json
+    val: val_Cityscapes.json
+    
   loaders:
     batch_size: 40 # 40, max=93
     shuffle: True
     num_workers: 8
+   
   transforms:
     - name: hflip
       ignore: true
       p: 0.5
     - name: resize
-      ignore: true
+      ignore: false
       new_size: 256 #! Make sure this matches opts.data.img_size
     - name: crop
       ignore: true
       height: 224
       width: 224
     - name: resize # ? this or change generator's output? Or resize larger then crop to 256?
-      ignore: true
+      ignore: false
       new_size: 256 #! Make sure this matches opts.data.img_size
