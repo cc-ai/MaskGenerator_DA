@@ -11,9 +11,9 @@
 ## How to run the code?
 ```bash
 $ pip install .
-$ python train_CCAI.py --cfg ./shared/advent.yml # Train ADVENT from deeplabv2 pretrained model
-$ python entropy.py --cfg ./shared/advent-entropy-fixed.yml # creating the entropy map rank
-$ python train_CCAI_IntraStage.py --cfg ./shared/advent-intra.yml # continue to train with IntraDA
+$ python train_CCAI.py --cfg ./shared/advent.yml # Step1: Train ADVENT from deeplabv2 pretrained model
+$ python entropy.py --cfg ./shared/advent-entropy-fixed.yml # Step2: Creating the entropy map rank
+$ python train_CCAI_IntraStage.py --cfg ./shared/advent-intra.yml # Step3: Continue to train with IntraDA
 ```
 ## How to test the code?
 ```bash
