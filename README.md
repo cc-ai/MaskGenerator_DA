@@ -11,12 +11,13 @@
 ## How to run the code?
 ```bash
 $ pip install .
-$ python train_CCAI.py # by default setting
-$ python train_CCAI.py --cfg ./shared/advent.yml # by updated settings in advent.yml
+$ python train_CCAI.py --cfg ./shared/advent.yml # Train ADVENT from deeplabv2 pretrained model
+$ python entropy.py --cfg ./shared/advent-entropy-fixed.yml # creating the entropy map rank
+$ python train_CCAI_IntraStage.py --cfg ./shared/advent-intra.yml # continue to train with IntraDA
 ```
 ## How to test the code?
 ```bash
-$ python test_CCAI.py
+$ python test_CCAI.py --cfg ./shared/...(you need create yml files for tests)
 ```
 ## How to uninstall the package?
 ```bash
@@ -24,4 +25,4 @@ $ pip uninstall ADVENT
 ```
 ## Acknowledge
 ADVENT: Adversarial Entropy Minimization for Domain Adaptation in Semantic Segmentation [https://github.com/valeoai/ADVENT]
-
+Unsupervised Intra-domain Adaptation for Semantic Segmentation through Self-Supervision [https://github.com/feipan664/IntraDA]
