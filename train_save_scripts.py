@@ -87,7 +87,7 @@ def train_preview(model, source_loader, target_loader, target_val_loader, cfg, c
     cur_best_miou = -1
     cur_best_model = ''
 
-    for i_iter in tqdm(range(cfg.TRAIN.EARLY_STOP + 1)):
+    for i_iter in tqdm(range(cfg.TRAIN.checkpoint_iter + 1 ,cfg.TRAIN.checkpoint_iter + 1 + cfg.TRAIN.EARLY_STOP + 1)):
         times.append(time())
         comet_exp.log_metric("i_iter", i_iter)
 
@@ -204,8 +204,8 @@ def train_preview(model, source_loader, target_loader, target_val_loader, cfg, c
         current_losses_numDict = tesnorDict2numDict(current_losses)
         comet_exp.log_metrics(current_losses_numDict)
 
-        #if i_iter % cfg.TRAIN.SAVE_PRED_EVERY == 0 and i_iter != 0:
-        if i_iter % cfg.TRAIN.SAVE_PRED_EVERY == 0:
+        if i_iter % cfg.TRAIN.SAVE_PRED_EVERY == 0 and i_iter != 0:
+        # if i_iter % cfg.TRAIN.SAVE_PRED_EVERY == 0:
             print('taking snapshot ...')
             print('exp =', cfg.TRAIN.SNAPSHOT_DIR)
             snapshot_dir = Path(cfg.TRAIN.SNAPSHOT_DIR)
@@ -214,16 +214,15 @@ def train_preview(model, source_loader, target_loader, target_val_loader, cfg, c
             torch.save(d_main.state_dict(), snapshot_dir / f'model_{i_iter}_D_main.pth')
             if i_iter >= cfg.TRAIN.EARLY_STOP - 1:
                 break
-        if i_iter % cfg.TRAIN.SAVE_IMAGE_PRED == 0 or i_iter == cfg.TRAIN.EARLY_STOP:
-        #if i_iter % cfg.TRAIN.SAVE_IMAGE_PRED == 0 and i_iter != 0 or i_iter == cfg.TRAIN.EARLY_STOP:
+        # if i_iter % cfg.TRAIN.SAVE_IMAGE_PRED == 0 or i_iter == cfg.TRAIN.EARLY_STOP:
+        if i_iter % cfg.TRAIN.SAVE_IMAGE_PRED == 0 and i_iter != 0 or i_iter == cfg.TRAIN.EARLY_STOP:
             print("Inferring test images in iteration {}...".format(i_iter))
             hist = np.zeros((cfg.NUM_CLASSES, cfg.NUM_CLASSES))
             try:
                 _, batch = target_val_loader_iter.__next__()
             except StopIteration:
-                target_val_loader_iter = enumerate(target_val_loader)
+                target_val_loader_iter = enumerate(target_val_loader_iter)
                 _, batch = target_val_loader_iter.__next__()
-
             image, label = batch['data']['x'][0], batch['data']['m'][0]
             image = image[None, :, :, :]
 
